@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Manager</title>
+    <style>
+        body { font-family: Arial; background: #f4f6f9; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; }
+        th { background: #333; color: white; }
+        form { margin: 10px 0; }
+        input, select { padding: 5px; margin: 5px; }
+        button { background: #007BFF; color: white; border: none; padding: 6px 12px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>📚 Book Manager</h1>
+
+    <form method="POST" action="/add">
+        <input type="text" name="title" placeholder="Title" required>
+        <input type="text" name="author" placeholder="Author" required>
+        <select name="status">
+            <option>Read</option>
+            <option>Unread</option>
+        </select>
+        <input type="number" name="rating" placeholder="Rating" min="1" max="5">
+        <button type="submit">Add Book</button>
+    </form>
+
+    <table>
+        <tr><th>ID</th><th>Title</th><th>Author</th><th>Status</th><th>Rating</th><th>Actions</th></tr>
+        {% for book in books %}
+        <tr>
+            <td>{{book[0]}}</td>
+            <td>{{book[1]}}</td>
+            <td>{{book[2]}}</td>
+            <td>{{book[3]}}</td>
+            <td>{{book[4]}}</td>
+            <td>
+                <form method="POST" action="/update/{{book[0]}}" style="display:inline;">
+                    <input type="text" name="title" placeholder="New Title">
+                    <input type="text" name="author" placeholder="New Author">
+                    <select name="status">
+                        <option>Read</option>
+                        <option>Unread</option>
+                    </select>
+                    <input type="number" name="rating" min="1" max="5">
+                    <button type="submit">Update</button>
+                </form>
+                <a href="/delete/{{book[0]}}"><button>Delete</button></a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
